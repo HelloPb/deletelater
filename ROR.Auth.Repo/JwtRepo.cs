@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ROR.Auth.Interfaces;
-using ROR.DataAccess.Mongo.Models;
+using ROR.DataAccess.Mongo;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,14 +18,14 @@ namespace ROR.Auth.Repo
             _config = config;
         }
 
-        public string createToken(User user)
+        public string createToken(UserDto user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, user.PID),
-                new Claim("PersonId", user.AJCP_ID),
+                new Claim(JwtRegisteredClaimNames.Sub, user.ajc_pid.ToString()),
+                new Claim("PersonId", user.person_code.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

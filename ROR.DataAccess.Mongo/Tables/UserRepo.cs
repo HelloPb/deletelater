@@ -1,37 +1,48 @@
 ﻿using ROR.Auth.Interfaces;
 using System;
 using System.Collections.Generic;
-using ROR.DataAccess.Mongo.Models;
+using ROR.DataAccess.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using System.Security.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace ROR.DataAccess.Mongo
 {
-    public class TUser : IDataAccess<User>
+    public class UserRepo : IDataAccess<User>
     {
-        MongoClient _client;
-        MongoServer _server;
-        MongoDatabase _db;
+        private MongoClient _client;
+        private MongoServer _server;
+        private MongoDatabase _db;
+        private IConfiguration _config;
 
-        public TUser()
+        public UserRepo(IConfiguration config)
         {
-            _client = new MongoClient("");
-            _server = _client.GetServer();
-            _db = _server.GetDatabase("");
-        }
+            _config = config;
 
+            MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(_config["connectionString:mongodb"]));
+
+            settings.SslSettings =
+              new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+
+            _client = new MongoClient(settings);
+
+            _server = _client.GetServer();
+
+            _db = _server.GetDatabase("rorusers");
+        }
+        
         public void delete(string Id)
         {
             ObjectId id = new ObjectId();
-            var res = Query<User>.EQ(e => e.Id, id);
+            var res = Query<User>.EQ(e => e.AJC_PID, long.Parse(Id));
             var operation = _db.GetCollection<User>("Users").Remove(res);
         }
 
-        public User get(string Id)
+        public User get(long Id)
         {
-            ObjectId id = new ObjectId();
-            var res = Query<User>.EQ(p => p.Id, id);
+            var res = Query<User>.EQ(e => e.AJC_PID, Id);
             return _db.GetCollection<User>("Users").FindOne(res);
         }
 
@@ -45,8 +56,8 @@ namespace ROR.DataAccess.Mongo
         {
             ObjectId id = new ObjectId();
 
-            user.Id = id;
-            var res = Query<User>.EQ(pd => pd.Id, id);
+            user._id = id;
+            var res = Query<User>.EQ(pd => pd._id, id);
             var operation = Update<User>.Replace(user);
             _db.GetCollection<User>("Users").Update(res, operation);
         }

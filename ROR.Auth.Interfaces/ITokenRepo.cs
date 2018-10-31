@@ -1,10 +1,10 @@
-﻿using ROR.DataAccess.Mongo.Models;
+﻿using ROR.DataAccess.Mongo;
 using System;
 
 namespace ROR.Auth.Interfaces
 {
     public interface ITokenRepo
     {
-        string createToken(User user);
+        string createToken(UserDto user);
     }
 }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ROR.Auth.Interfaces\ROR.Auth.Interfaces.csproj" />
+    <ProjectReference Include="..\ROR.DataAccess.Mongo\ROR.DataAccess.Mongo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

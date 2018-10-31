@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using ROR.Auth.Interfaces;
-using ROR.DataAccess.Mongo.Models;
+using ROR.DataAccess.Mongo;
 
 namespace ROR.Auth.API.Controllers
 {
@@ -30,9 +30,10 @@ namespace ROR.Auth.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]User login)
+        public IActionResult Post([FromBody]UserDto login)
         {
             IActionResult response = Unauthorized();
+
             var user = _authRepo.Authenticate(login);
 
             if (user != null)

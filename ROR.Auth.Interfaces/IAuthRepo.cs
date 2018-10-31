@@ -1,10 +1,10 @@
-﻿using ROR.DataAccess.Mongo.Models;
+﻿using ROR.DataAccess.Mongo;
 using System;
 
 namespace ROR.Auth.Interfaces
 {
     public interface IAuthRepo
     {
-        User Authenticate(User user);        
+        UserDto Authenticate(UserDto user);        
     }
 }

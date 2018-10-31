@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ROR.Auth.Interfaces;
 using ROR.Auth.Repo;
+using ROR.DataAccess.Mongo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ROR.Auth.API
         {
             services.AddScoped<IAuthRepo, AuthRepo>();
             services.AddScoped<ITokenRepo, JwtRepo>();
+            services.AddScoped<UserRepo>();
         }
     }
 }

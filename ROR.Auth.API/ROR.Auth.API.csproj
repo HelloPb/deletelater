@@ -11,12 +11,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ROR.Auth.Interfaces\ROR.Auth.Interfaces.csproj" />
     <ProjectReference Include="..\ROR.Auth.Models\ROR.Auth.Models.csproj" />
     <ProjectReference Include="..\ROR.Auth.Repo\ROR.Auth.Repo.csproj" />
+    <ProjectReference Include="..\ROR.DataAccess.Mongo\ROR.DataAccess.Mongo.csproj" />
   </ItemGroup>
 
 </Project>
